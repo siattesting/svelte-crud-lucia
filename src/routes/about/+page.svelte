@@ -1,7 +1,4 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-
-<h1>Veggies!</h1>
+<h1>About Us!</h1>
 <p>
 	Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth
 	tatsoi tomatillo melon azuki bean garlic.
