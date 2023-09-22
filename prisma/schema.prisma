@@ -17,7 +17,8 @@ model User {
 
   auth_session Session[]
   key          Key[]
-  post         Post[]
+  posts        Post[]
+  transaction  Transaction[]
 }
 
 model Session {
@@ -55,4 +56,38 @@ model Tag {
   id    String @unique
   name  String
   posts Post[]
+}
+
+enum TransCategory {
+  INFLOW
+  OUTFLOW
+}
+
+model Transaction {
+  id String @unique
+  author User @relation(fields: [authorId], references: [id] )
+  authorId String
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  amount Float
+  trans_category TransCategory @default(OUTFLOW)
+  partnerId String
+  partner Partner @relation(fields: [partnerId], references: [id] )
+  
+  
+  
+}
+
+model Partner {
+  id String @unique
+  title String
+  content String?
+  transactions Transaction[]
+}
+
+model Todo {
+  id String @unique
+  title String
+  completed Boolean
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+
 }
