@@ -44,7 +44,8 @@ export const actions: Actions = {
 		} catch (e) {
 			// this parts depends on the database you are using
 			// check for uniaue constraint in user table
-			if (e instanceof SomeDatabaseError && e.message === USER_TABLE_UNIQUE_CONSTRAINT_ERROR) {
+			if (e) {
+				console.log(e);
 				return fail(400, {
 					message: 'Username already taken.'
 				});

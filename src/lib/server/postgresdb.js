@@ -16,7 +16,7 @@ export async function getTodos() {
 
 export async function createTodo({ title, completed }) {
 	const todos = await sql`
-	insert into Todo 
+	insert into todo 
 	(title, completed) 
 	values (${title}, ${completed}) 
 	returning title, completed

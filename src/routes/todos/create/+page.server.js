@@ -1,4 +1,4 @@
-import prisma from '$lib/server/prisma.js';
+import { createTodo } from '$lib/server/postgresdb';
 import { fail, redirect } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
 
@@ -19,13 +19,12 @@ export const actions = {
 		}
 
 		try {
-			await prisma.todo.create({
-				data: {
-					id: randomUUID(),
-					title,
-					completed: false
-				}
-			});
+			const newTodo = {
+				id: crypto.randomUUID().toString(),
+				title,
+				completed
+			};
+			await createTodo(newTodo);
 		} catch (error) {
 			console.error('Error: ', error);
 		}
