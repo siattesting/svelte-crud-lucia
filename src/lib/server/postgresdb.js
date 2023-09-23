@@ -10,16 +10,16 @@ const sql = postgres(DATABASE_URL, {
 });
 
 export async function getTodos() {
-	const todos = await sql`SELECT title, completed FROM todo`;
+	const todos = await sql`SELECT * FROM todo`;
 	return todos;
 }
 
-export async function createTodo({ title, completed }) {
+export async function createTodo({ id, title, completed }) {
 	const todos = await sql`
 	insert into todo 
-	(title, completed) 
-	values (${title}, ${completed}) 
-	returning title, completed
+	(id, title, completed) 
+	values (${id}, ${title}, ${completed}) 
+	returning id, title, completed
 	`;
 	return todos;
 }
