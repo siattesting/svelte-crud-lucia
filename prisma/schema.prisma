@@ -11,80 +11,78 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
+model account {
   id       String @id @unique
   username String @unique
 
-  auth_session Session[]
-  key          Key[]
-  posts        Post[]
-  transaction  Transaction[]
+  auth_session session[]
+  key          key[]
+  posts        post[]
+  transaction  transaction[]
 }
 
-model Session {
+model session {
   id             String @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           account   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
 }
 
-model Key {
+model key {
   id              String  @id @unique
   hashed_password String?
   user_id         String
-  account         User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  account         account    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
 }
 
-model Post {
+model post {
   id        String   @id @unique
   title     String
   content   String?
   published Boolean  @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(6)
   author_id String
-  user      User     @relation(references: [id], fields: [author_id], onDelete: Cascade)
-  Tag       Tag?     @relation(fields: [tagId], references: [id])
+  user      account     @relation(references: [id], fields: [author_id], onDelete: Cascade)
+  tag       tag?     @relation(fields: [tagId], references: [id])
   tagId     String?
 }
 
-model Tag {
+model tag {
   id    String @unique
   name  String
-  posts Post[]
+  posts post[]
 }
 
-enum TransCategory {
+enum trans_category {
   INFLOW
   OUTFLOW
 }
 
-model Transaction {
+model transaction {
   id String @unique
-  author User @relation(fields: [authorId], references: [id] )
+  author account @relation(fields: [authorId], references: [id] )
   authorId String
   createdAt DateTime @default(now()) @db.Timestamp(6)
   amount Float
-  trans_category TransCategory @default(OUTFLOW)
+  trans_category trans_category @default(OUTFLOW)
   partnerId String
-  partner Partner @relation(fields: [partnerId], references: [id] )
-  
-  
+  partner partner @relation(fields: [partnerId], references: [id] )
   
 }
 
-model Partner {
+model partner {
   id String @unique
   title String
   content String?
-  transactions Transaction[]
+  transactions transaction[]
 }
 
-model Todo {
+model todo {
   id String @unique
   title String
   completed Boolean
