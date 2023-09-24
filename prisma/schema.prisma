@@ -11,31 +11,32 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model account {
+model auth_user {
   id       String @id @unique
   username String @unique
 
-  auth_session session[]
-  key          key[]
+  auth_session user_session[]
+  key          user_key[]
   posts        post[]
   transaction  transaction[]
+  todos todo[]
 }
 
-model session {
+model user_session {
   id             String @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           account   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           auth_user   @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
 }
 
-model key {
+model user_key {
   id              String  @id @unique
   hashed_password String?
   user_id         String
-  account         account    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  account         auth_user    @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
 }
@@ -47,7 +48,7 @@ model post {
   published Boolean  @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(6)
   author_id String
-  user      account     @relation(references: [id], fields: [author_id], onDelete: Cascade)
+  user      auth_user     @relation(references: [id], fields: [author_id], onDelete: Cascade)
   tag       tag?     @relation(fields: [tagId], references: [id])
   tagId     String?
 }
@@ -65,14 +66,15 @@ enum trans_category {
 
 model transaction {
   id String @unique
-  author account @relation(fields: [authorId], references: [id] )
+  title String
+  content String
+  author auth_user @relation(fields: [authorId], references: [id] )
   authorId String
   createdAt DateTime @default(now()) @db.Timestamp(6)
   amount Float
   trans_category trans_category @default(OUTFLOW)
   partnerId String
-  partner partner @relation(fields: [partnerId], references: [id] )
-  
+  partner partner @relation(fields: [partnerId], references: [id] )  
 }
 
 model partner {
@@ -86,6 +88,8 @@ model todo {
   id String @unique
   title String
   completed Boolean
+  author auth_user @relation(fields: [authorId], references: [id] )
+  authorId String
   createdAt DateTime @default(now()) @db.Timestamp(6)
 
 }

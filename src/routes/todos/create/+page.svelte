@@ -10,8 +10,6 @@
 		{#if form?.missing}<p class="error">A required field is missing</p>{/if}
 		<label for="title">Title</label>
 		<input type="text" placeholder="Title" name="title" value={form?.title ?? ''} />
-		<label for="completed">Completed?</label>
-		<input type="checkbox" name="completed" checked value={form?.completed ? true : false} />
 		<button type="submit">Create</button>
 		<a href="/todos">Cancel</a>
 	</form>
