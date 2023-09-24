@@ -23,3 +23,12 @@ export async function createTodo({ id, title, completed }) {
 	`;
 	return todos;
 }
+
+export async function getTodo(todoId) {
+	const todo = await sql`
+	select * from todos where id = ${todoId}
+	
+	returning id, title, completed
+	`;
+	return todo;
+}

@@ -7,7 +7,9 @@
 <div>
 	<ul />
 	{#each data.todos as todo (todo.id)}
-		<li>{todo.title} - {todo.completed}</li>
+		<a href="/todos/{todo.id}">
+			<li>{todo.title} - {todo.completed}</li>
+		</a>
 	{/each}
 	<a href="/todos/create">Create</a>
 </div>
