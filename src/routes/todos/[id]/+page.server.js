@@ -1,25 +1,24 @@
 import prisma from '$lib/server/prisma';
 import { error, fail, redirect } from '@sveltejs/kit';
 
-/** @type {import('./$types').PageLoad} */
+/** @type {import('./$types').PageServerLoad} */
 export async function load({ locals, params }) {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
-	const getTodo = async () => {
-		const todo = await prisma.todo.findUnique({
-			where: {
-				id: params.id
-			}
-		});
-		if (!todo) {
-			throw error(404, 'Todo not found.');
+
+	const todo = await prisma.todo.findUnique({
+		where: {
+			id: params.id
 		}
-		return todo;
-	};
+	});
+	if (!todo) {
+		throw error(404, 'Todo not found.');
+	}
+
 	return {
 		userId: session.user.userId,
 		username: session.user.username,
-		todo: getTodo()
+		todo: todo
 	};
 }
 
@@ -41,9 +40,6 @@ export const actions = {
 			console.error(err);
 			return fail(500, { message: 'Could not update this todo.' });
 		}
-
-		return {
-			status: 200
-		};
+		throw redirect(303, `/todos/` + params.id);
 	}
 };
