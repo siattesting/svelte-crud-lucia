@@ -19,4 +19,10 @@
 	.error {
 		color: tomato;
 	}
+
+	form {
+		display: grid;
+		width: 50%;
+		gap: 10px;
+	}
 </style>

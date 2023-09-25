@@ -1,4 +1,3 @@
-import { createTodo } from '$lib/server/postgresdb';
 import prisma from '$lib/server/prisma';
 import { fail, redirect } from '@sveltejs/kit';
 
