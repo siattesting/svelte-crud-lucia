@@ -40,6 +40,6 @@ export const actions = {
 			console.error(err);
 			return fail(500, { message: 'Could not update this todo.' });
 		}
-		throw redirect(303, `/todos/` + params.id);
+		throw redirect(303, `/todos`);
 	}
 };
