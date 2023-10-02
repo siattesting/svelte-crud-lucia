@@ -32,3 +32,13 @@ export async function getTodo(todoId) {
 	`;
 	return todo;
 }
+
+export async function createTransaction({ id, title, content, partner, category, amount }) {
+	const transaction = await sql`
+	insert into transaction 
+	(id, title, content, partner, category, amount) 
+	values (${id}, ${title}, ${content}, ${partner}, ${category}, ${amount}) 
+	returning id
+	`;
+	return transaction;
+}

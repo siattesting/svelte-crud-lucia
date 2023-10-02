@@ -1,9 +1,11 @@
 <script>
 	import { enhance } from '$app/forms';
+	export let form;
 </script>
 
 <h1>Sign In</h1>
 <form method="POST" use:enhance>
+	<p>{form?.error}</p>
 	<label for="username" class="field">
 		<span class="label-text">Username</span>
 		<input type="text" name="username" id="username" placeholder="Username..." />
