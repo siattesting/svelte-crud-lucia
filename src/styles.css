@@ -4,7 +4,7 @@
 	box-sizing: border-box;
 }
 body {
-	margin: 2em auto;
+	margin: 0 auto;
 	min-height: 100vh;
 	width: 90%;
 	font-family: 'Poppins';
@@ -13,14 +13,16 @@ body {
 	grid-template-rows: auto auto 1fr auto;
 }
 
-nav ul {
+nav {
 	list-style: none;
 	display: flex;
+	background-color: #ccc;
 }
 nav a {
-	padding: 0.5em;
 	margin-right: 0.5em;
+	padding: 0.5em;
 	text-decoration: none;
+	text-transform: uppercase;
 }
 
 footer {
@@ -39,12 +41,15 @@ footer {
 
 	nav {
 		grid-row: span 2;
-		position: sticky;
-		top: 0;
 	}
 
-	nav ul {
-		display: inline-block;
+	nav {
+	}
+	nav {
+		display: flex;
+		flex-direction: column;
+		list-style: none;
+		background-color: #ccc;
 	}
 
 	nav a:link,

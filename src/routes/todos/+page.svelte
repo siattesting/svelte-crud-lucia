@@ -11,7 +11,7 @@
 			<li class="todo-item">
 				<a href="/todos/{todo.id}">
 					<p>{todo.title} - {todo.completed}</p>
-					<small>{todo.authorId} {data.username}</small>
+					<small>{todo.authorId}</small>
 				</a>
 			</li>
 		{/each}
