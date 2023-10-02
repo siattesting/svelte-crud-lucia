@@ -2,10 +2,9 @@
 	import { enhance } from '$app/forms';
 
 	export let data;
-	const categories = ['RECETTES', 'DEPENSES'];
 </script>
 
-<h2>Transactions</h2>
+<h2>Partners</h2>
 <div>
 	<p>User id: {data.userId}</p>
 	<p>Username: {data.username}</p>
@@ -17,7 +16,7 @@
 
 <article />
 
-<h2>New transaction</h2>
+<h2>New Partner</h2>
 <div>
 	<form action="?/create" method="POST" use:enhance>
 		<label for="title" class="field">
@@ -28,22 +27,7 @@
 			<span class="label-text">Content</span>
 			<textarea name="content" placeholder="Description" rows={5} />
 		</label>
-		<label for="amount" class="field">
-			<span class="label-text">Amount</span>
-			<input type="number" name="amount" min="0" />
-		</label>
-		<label for="partner" class="field">
-			<span class="label-text">Partner</span>
-			<input type="text" name="partner" placeholder="Partner name" />
-		</label>
-		<label for="category" class="field">
-			<span class="label-text">Category:</span>
-			<select name="category">
-				{#each categories as category}
-					<option value={category}>{category}</option>
-				{/each}
-			</select>
-		</label>
+
 		<button type="submit" class="field">Save</button>
 	</form>
 </div>

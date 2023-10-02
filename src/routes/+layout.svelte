@@ -12,6 +12,7 @@
 	<a href="/team">Team</a>
 	<a href="/contact">Contact</a>
 	<a href="/todos">Todos</a>
+	<a href="/partners">Partners</a>
 </nav>
 <main>
 	<slot />
