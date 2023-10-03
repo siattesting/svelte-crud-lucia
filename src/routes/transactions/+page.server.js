@@ -1,28 +1,38 @@
 import { redirect, fail } from '@sveltejs/kit';
+import prisma from '$lib/server/prisma';
 
 import { auth } from '$lib/server/lucia';
-import { createTransaction } from '$lib/server/postgresdb';
+import { createTransaction, getPartners } from '$lib/server/postgresdb';
 
 export const load = async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
+	const partners = await getPartners();
+	const transactions = await prisma.transaction.findMany({
+		include: { partner: true }
+	});
 
 	return {
 		userId: session.user.userId,
-		username: session.user.username
+		username: session.user.username,
+		partners,
+		transactions
 	};
 };
 
 export const actions = {
 	create: async ({ request, locals }) => {
+		const session = await locals.auth.validate();
+
 		const formData = await request.formData();
 		const title = formData.get('title');
 		const content = formData.get('content');
-		const amount = formData.get('amount');
+		const amount = Number(formData.get('amount'));
 		const category = formData.get('category');
-		const partner = formData.get('partner');
+		const partnerId = formData.get('partnerId');
+		const authorId = session.user.userId;
 
-		if (!title || !content || !amount || !category || !partner) {
+		if (!title || !content || !amount || !category || !partnerId) {
 			return fail(400, { message: 'Missing information' });
 		}
 
@@ -32,13 +42,17 @@ export const actions = {
 				title,
 				content,
 				amount,
-				category,
-				partner
+				trans_category: category,
+				partnerId,
+				authorId
 			};
-			await createTransaction(transaction);
+			console.log(transaction);
+			// await createTransaction(transaction);
+			await prisma.transaction.create({ data: transaction });
 		} catch (err) {
 			console.error(err);
 			return fail(500, { message: 'Could not create this transaction.' });
 		}
+		throw redirect(303, '/transactions');
 	}
 };

@@ -1,3 +1,4 @@
+import { getPartners } from '$lib/server/postgresdb';
 import prisma from '$lib/server/prisma';
 import { fail, redirect } from '@sveltejs/kit';
 
@@ -5,9 +6,12 @@ export const load = async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
 
+	const partners = await getPartners();
+
 	return {
 		userId: session.user.userId,
-		username: session.user.username
+		username: session.user.username,
+		partners
 	};
 };
 

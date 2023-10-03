@@ -9,6 +9,12 @@
 	<p>User id: {data.userId}</p>
 	<p>Username: {data.username}</p>
 </div>
+
+<div>
+	{#each data.partners as partner}
+		<p>{partner.id} - {partner.title}</p>
+	{/each}
+</div>
 <p>
 	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, inventore? Neque nobis dolore
 	reprehenderit officia.

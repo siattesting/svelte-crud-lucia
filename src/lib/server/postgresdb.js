@@ -33,12 +33,27 @@ export async function getTodo(todoId) {
 	return todo;
 }
 
-export async function createTransaction({ id, title, content, partner, category, amount }) {
+export async function createTransaction({
+	id,
+	title,
+	content,
+	partnerId,
+	trans_category,
+	amount,
+	authorId
+}) {
 	const transaction = await sql`
 	insert into transaction 
-	(id, title, content, partner, category, amount) 
-	values (${id}, ${title}, ${content}, ${partner}, ${category}, ${amount}) 
+	(id, title, content, amount, partnerId, trans_category, authorId) 
+	values (${id}, ${title}, ${content}, ${amount}, ${partnerId}, ${trans_category},  ${authorId}) 
 	returning id
 	`;
 	return transaction;
+}
+
+export async function getPartners() {
+	const partners = await sql`
+	select * from partner
+	`;
+	return partners;
 }

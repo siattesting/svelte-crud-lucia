@@ -2,7 +2,8 @@
 	import { enhance } from '$app/forms';
 
 	export let data;
-	const categories = ['RECETTES', 'DEPENSES'];
+	const categories = ['OUTFLOW', 'INFLOW'];
+	const partners = data.partners;
 </script>
 
 <h2>Transactions</h2>
@@ -10,10 +11,17 @@
 	<p>User id: {data.userId}</p>
 	<p>Username: {data.username}</p>
 </div>
-<p>
-	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, inventore? Neque nobis dolore
-	reprehenderit officia.
-</p>
+<div>
+	{#each data.transactions as transaction}
+		<div>
+			<h2>{transaction.title}</h2>
+			<p>{transaction.content}</p>
+			<p>{transaction.partner.title}</p>
+			<h4>{transaction.amount} XOF</h4>
+			<p>{transaction.trans_category}</p>
+		</div>
+	{/each}
+</div>
 
 <article />
 
@@ -32,9 +40,13 @@
 			<span class="label-text">Amount</span>
 			<input type="number" name="amount" min="0" />
 		</label>
-		<label for="partner" class="field">
+		<label for="partnerId" class="field">
 			<span class="label-text">Partner</span>
-			<input type="text" name="partner" placeholder="Partner name" />
+			<select name="partnerId">
+				{#each partners as partner}
+					<option value={partner.id}>{partner.title}</option>
+				{/each}
+			</select>
 		</label>
 		<label for="category" class="field">
 			<span class="label-text">Category:</span>

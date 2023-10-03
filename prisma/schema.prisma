@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,45 +9,44 @@ datasource db {
 }
 
 model auth_user {
-  id       String @id @unique
-  username String @unique
-
-  auth_session user_session[]
-  key          user_key[]
+  id           String         @id @unique
+  username     String         @unique
   posts        post[]
-  transaction  transaction[]
-  todos todo[]
+  todos        todo[]
+  transactions transaction[]
+  key          user_key[]
+  auth_session user_session[]
 }
 
 model user_session {
-  id             String @id @unique
+  id             String    @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           auth_user   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           auth_user @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
 }
 
 model user_key {
-  id              String  @id @unique
+  id              String    @id @unique
   hashed_password String?
   user_id         String
-  account         auth_user    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  account         auth_user @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([user_id])
 }
 
 model post {
-  id        String   @id @unique
+  id        String    @id @unique
   title     String
   content   String?
-  published Boolean  @default(false)
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  published Boolean   @default(false)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
   author_id String
-  user      auth_user     @relation(references: [id], fields: [author_id], onDelete: Cascade)
-  tag       tag?     @relation(fields: [tagId], references: [id])
   tagId     String?
+  user      auth_user @relation(fields: [author_id], references: [id], onDelete: Cascade)
+  tag       tag?      @relation(fields: [tagId], references: [id])
 }
 
 model tag {
@@ -59,37 +55,36 @@ model tag {
   posts post[]
 }
 
-enum trans_category {
-  INFLOW
-  OUTFLOW
-}
-
 model transaction {
-  id String @unique
-  title String
-  content String
-  author auth_user @relation(fields: [authorId], references: [id] )
-  authorId String
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  amount Float
+  id             String         @unique
+  authorId       String
+  createdAt      DateTime       @default(now()) @db.Timestamp(6)
+  amount         Float
   trans_category trans_category @default(OUTFLOW)
-  partnerId String
-  partner partner @relation(fields: [partnerId], references: [id] )  
+  partnerId      String
+  content        String
+  title          String
+  author         auth_user      @relation(fields: [authorId], references: [id])
+  partner        partner        @relation(fields: [partnerId], references: [id])
 }
 
 model partner {
-  id String @unique
-  title String
-  content String?
+  id           String        @unique
+  title        String        @unique
+  content      String?
   transactions transaction[]
 }
 
 model todo {
-  id String @unique
-  title String
+  id        String    @unique
+  title     String
   completed Boolean
-  author auth_user @relation(fields: [authorId], references: [id] )
-  authorId String
-  createdAt DateTime @default(now()) @db.Timestamp(6)
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  authorId  String
+  author    auth_user @relation(fields: [authorId], references: [id])
+}
 
+enum trans_category {
+  INFLOW
+  OUTFLOW
 }
