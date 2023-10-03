@@ -8,7 +8,9 @@ export const load = async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
 
-	const todos = await prisma.todo.findMany();
+	const todos = await prisma.todo.findMany({
+		include: { author: true }
+	});
 
 	return {
 		userId: session.user.userId,

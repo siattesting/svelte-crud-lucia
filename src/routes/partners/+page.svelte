@@ -11,14 +11,18 @@
 </div>
 
 <div>
-	{#each data.partners as partner}
-		<p>{partner.id} - {partner.title}</p>
-	{/each}
+	<h2>List of partners</h2>
+	<ul class="grid-items">
+		{#each data.partners as partner (partner.id)}
+			<li class="grid-item">
+				<a href="/partners/{partner.id}">
+					<p>{partner.title}</p>
+				</a>
+				<small>{partner.content}</small>
+			</li>
+		{/each}
+	</ul>
 </div>
-<p>
-	Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, inventore? Neque nobis dolore
-	reprehenderit officia.
-</p>
 
 <article />
 
@@ -63,5 +67,18 @@
 		grid-template-columns: subgrid;
 		grid-gap: inherit;
 		margin-bottom: 1em;
+	}
+
+	.grid-items {
+		display: grid;
+		gap: 10px;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	}
+	.grid-item {
+		padding: 10px;
+		border: 2px green solid;
+		border-radius: 5px;
+		margin: 5px;
+		list-style: none;
 	}
 </style>

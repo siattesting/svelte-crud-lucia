@@ -8,10 +8,10 @@
 	<a href="/todos/create">Create</a>
 	<ul class="grid-items">
 		{#each data.todos as todo (todo.id)}
-			<li class="todo-item">
+			<li class="grid-item">
 				<a href="/todos/{todo.id}">
 					<p>{todo.title} - {todo.completed}</p>
-					<small>{todo.authorId}</small>
+					<small>{todo.author.username}</small>
 				</a>
 			</li>
 		{/each}
@@ -24,7 +24,7 @@
 		gap: 10px;
 		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 	}
-	.todo-item {
+	.grid-item {
 		padding: 10px;
 		border: 2px green solid;
 		border-radius: 5px;

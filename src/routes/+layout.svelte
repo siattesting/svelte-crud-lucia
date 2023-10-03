@@ -17,10 +17,6 @@
 <main>
 	<slot />
 </main>
-<footer>
-	<h2>footer</h2>
-	<p>
-		Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur incidunt alias quasi quisquam
-		ab commodi temporibus placeat et.
-	</p>
+<footer style="background-color: #ccc; text-align: center;">
+	<p>&copy siattesting | svelte-crud-lucia</p>
 </footer>
