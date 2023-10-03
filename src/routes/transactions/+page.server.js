@@ -2,14 +2,14 @@ import { redirect, fail } from '@sveltejs/kit';
 import prisma from '$lib/server/prisma';
 
 import { auth } from '$lib/server/lucia';
-import { createTransaction, getPartners } from '$lib/server/postgresdb';
 
 export const load = async ({ locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
-	const partners = await getPartners();
+	const partners = await prisma.partner.findMany();
 	const transactions = await prisma.transaction.findMany({
-		include: { partner: true }
+		where: { authorId: session.user.userId },
+		include: { partner: true, author: true }
 	});
 
 	return {
