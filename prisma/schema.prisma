@@ -14,6 +14,7 @@ model auth_user {
   posts        post[]
   todos        todo[]
   transactions transaction[]
+  partners     partner[]
   key          user_key[]
   auth_session user_session[]
 }
@@ -70,9 +71,11 @@ model transaction {
 
 model partner {
   id           String        @unique
-  title        String        @unique
+  title        String        
   content      String?
   transactions transaction[]
+  author         auth_user      @relation(fields: [authorId], references: [id])
+  authorId       String
 }
 
 model todo {

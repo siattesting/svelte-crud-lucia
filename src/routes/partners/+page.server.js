@@ -42,7 +42,8 @@ export const actions = {
 			let newPartner = {
 				id: crypto.randomUUID().toString(),
 				title,
-				content
+				content,
+				authorId
 			};
 			// await createTodo(newTodo);
 			await prisma.partner.create({ data: newPartner });

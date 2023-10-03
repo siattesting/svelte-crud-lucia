@@ -32,7 +32,7 @@ footer {
 
 @media screen and (min-width: 40em) {
 	body {
-		grid-template-columns: 10em 1fr;
+		grid-template-columns: 12em 1fr;
 		grid-template-rows: auto 1fr auto;
 	}
 	header {
@@ -55,5 +55,10 @@ footer {
 	nav a:link,
 	nav a:visted {
 		text-decoration: none;
+		margin-right: 0;
+	}
+	nav a:hover {
+		background-color: #ddd;
+		text: white;
 	}
 }
