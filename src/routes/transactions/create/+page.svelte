@@ -1,8 +1,23 @@
 <script>
+	import { enhance } from '$app/forms';
+
 	export let data;
 	export let form;
 	const categories = ['OUTFLOW', 'INFLOW'];
 	const partners = data.partners;
+
+	// USE enhance
+	// Create a laoding state
+	let loading = false;
+	function add(input) {
+		// befor the form is submitted, set the loading state to true
+		loading = true;
+		return async ({ update }) => {
+			// Update the loading to false after the form is submitted
+			loading = false;
+			await update();
+		};
+	}
 </script>
 
 <h2>New transaction</h2>
@@ -10,18 +25,18 @@
 	{#if form?.error}
 		<p class="error">{form.error}</p>
 	{/if}
-	<form action="?/create" method="POST" use:enhance>
+	<form action="?/create" method="POST" use:enhance={add}>
 		<label for="title" class="field">
 			<span class="label-text">Title</span>
-			<input type="text" name="title" placeholder="Title" />
+			<input type="text" name="title" placeholder="Title" value={form?.title ?? ''} />
 		</label>
 		<label for="content" class="field">
 			<span class="label-text">Content</span>
-			<textarea name="content" placeholder="Description" rows={5} />
+			<textarea name="content" placeholder="Description" rows={5} value={form?.content ?? ''} />
 		</label>
 		<label for="amount" class="field">
 			<span class="label-text">Amount</span>
-			<input type="number" name="amount" min="0" />
+			<input type="number" name="amount" min="0" value={form?.amount ?? ''} />
 		</label>
 		<label for="partnerId" class="field">
 			<span class="label-text">Partner</span>
@@ -39,7 +54,13 @@
 				{/each}
 			</select>
 		</label>
-		<button type="submit" class="field">Save</button>
+		<button type="submit" class="field" disabled={loading}>
+			{#if loading}
+				Creating...
+			{:else}
+				Create Transaction
+			{/if}
+		</button>
 	</form>
 </div>
 
