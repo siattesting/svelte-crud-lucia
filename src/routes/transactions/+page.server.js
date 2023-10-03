@@ -51,7 +51,10 @@ export const actions = {
 			await prisma.transaction.create({ data: transaction });
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: 'Could not create this transaction.' });
+			return fail(422, {
+				message: 'Could not create this transaction.',
+				error: err.message
+			});
 		}
 		throw redirect(303, '/transactions');
 	}
