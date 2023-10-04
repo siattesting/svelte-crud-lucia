@@ -14,7 +14,6 @@ model auth_user {
   posts        post[]
   todos        todo[]
   transactions transaction[]
-  partners     partner[]
   key          user_key[]
   auth_session user_session[]
 }
@@ -54,6 +53,7 @@ model tag {
   id    String @unique
   name  String
   posts post[]
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
 }
 
 model transaction {
@@ -71,11 +71,11 @@ model transaction {
 
 model partner {
   id           String        @unique
-  title        String        
+  title        String        @unique
   content      String?
+  authorId     String        @default("fh5sydlqhh3r3ey")
   transactions transaction[]
-  author         auth_user      @relation(fields: [authorId], references: [id])
-  authorId       String
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
 }
 
 model todo {

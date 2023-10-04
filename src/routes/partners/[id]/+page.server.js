@@ -6,41 +6,41 @@ export async function load({ locals, params }) {
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/login');
 
-	const transaction = await prisma.transaction.findUnique({
+	const partner = await prisma.partner.findUnique({
 		where: {
 			id: params.id
 		},
-		include: { author: true, partner: true }
+		include: { author: true, transactions: true }
 	});
-	if (!transaction) {
-		throw error(404, 'Transaction not found.');
+	if (!partner) {
+		throw error(404, 'Partner not found.');
 	}
 
 	return {
 		userId: session.user.userId,
 		username: session.user.username,
-		transaction
+		partner
 	};
 }
 
 export const actions = {
 	update: async ({ request, params }) => {
-		const { title, completed } = Object.fromEntries(await request.formData());
+		const { title, content } = Object.fromEntries(await request.formData());
 
 		try {
-			await prisma.transaction.update({
+			await prisma.partner.update({
 				where: {
-					id: params.id
+					title: params.title
 				},
 				data: {
 					title,
-					completed
+					content
 				}
 			});
 		} catch (err) {
 			console.error(err);
-			return fail(500, { message: 'Could not update this todo.' });
+			return fail(500, { message: 'Could not update this partner.' });
 		}
-		throw redirect(303, `/transactions`);
+		throw redirect(303, `/partners`);
 	}
 };
