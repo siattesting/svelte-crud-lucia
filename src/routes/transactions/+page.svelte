@@ -48,7 +48,7 @@
 			<th>Author</th>
 		</thead>
 		<tbody>
-			{#each data.alltransactions as tran (tran.id)}
+			{#each data.mytransactions as tran (tran.id)}
 				<tr>
 					<td>{tran.id}</td>
 					<td><a href="/transactions/{tran.id}">{tran.title}</a></td>

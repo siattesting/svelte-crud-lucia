@@ -57,3 +57,10 @@ export async function getPartners() {
 	`;
 	return partners;
 }
+
+export async function getTransactions() {
+	const transactions = await sql`
+	select * from transaction
+	`;
+	return transactions;
+}
